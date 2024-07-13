@@ -1,0 +1,236 @@
+#: kivy 2.1.0
+
+#By default, the size of Label is not affected by text content
+#and the text is not affected by the size.
+#In order to control sizing, you must specify text_size
+#to constrain the text and/or bind size to texture_size
+#to grow with the text.
+<LabelRedBorder@Label>:
+    canvas.before:
+        Color:
+            rgba: (1,0,0,1)
+        Line:
+            width: 2
+            rectangle: self.x, self.y, self.width, self.height
+
+<LabelWhiteBorder@Label>:
+    padding: 10, 10
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+
+<LabelBlueBorder@Label>:
+    padding: 20,20
+    canvas.before:
+        Color:
+            rgba: (0,0,1,1)
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+
+<FunkyLabel@Label>:
+    canvas.before:
+        Color:
+            rgba: (1,0,1,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    font_size: 20
+
+<StartScreen@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20,20
+        spacing: 10
+        Label:
+            font_size: 29
+            markup: True
+            text: "[b][color=#42f5f5]size [/color][/b]= size of [b]Label[/b]"
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+        Label:
+            font_size: 29
+            markup: True
+            text: '[b][color=#42f5f5]font_size [/color][/b]= size of [b]text CHARACTERS[/b]'
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+        Label:
+            font_size: 29
+            markup: True
+            text: '[b][color=#42f5f5]text_size [/color][/b]= size of [b]text BOX around the text [/b]; can be adjusted with code'
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+        Label:
+            font_size: 29
+            markup: True
+            text: '[b][color=#42f5f5]texture_size [/color][/b]= size of [b]text IMAGE[/b]; can NOT be adjusted with code'
+            text_size: self.size
+            halign: 'left'
+            valign: 'center'
+
+        Button:
+            text: 'Change Label size to fit text size'
+            on_release: app.root.current='screen1'
+        Button:
+            text: 'Change text size to fit Label size (needed for aligning text in Label)'
+            on_release: app.root.current='screen2'
+        Button:
+            text: 'Set text_size smaller than texture_size to only show part of text'
+            on_release: app.root.current='screen3'
+
+<Screen1@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10,10
+        spacing: 50
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20,20
+            Label:
+                font_size: 20
+                color: 1,0,0,1
+                text: "Change Label size to fit text_size"
+            Button:
+                size_hint_x: 0.2
+                text: 'home'
+                on_release: app.root.current='start_screen'
+            AnchorLayout:
+                anchor: ('center', 'center')
+                LabelWhiteBorder:
+                    font_size: 20
+                    multiline: True
+                    size_hint: None, None
+                    size: self.texture_size
+                    text: "Label:\n    padding: 10,10\n    text: 'Just some text here'\n    size_hint: None, None\n    size: self.texture_size"
+        LabelBlueBorder:
+            size_hint_y: 0.4
+            text: 'Just some text here'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            LabelRedBorder:
+                padding: 10,10
+                text: 'Just some text here'
+                size_hint: None, None
+                size: self.texture_size
+
+<Screen2@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20,20
+        spacing: 10
+        GridLayout:
+            size_hint_y: 0.6
+            cols: 2
+            spacing: 20
+            padding: 20,20
+            Label:
+                size_hint_y: 0.1
+                font_size: 20
+                color: 1,0,0,1
+                text: "Change text_size to fit Label size for aligning text in label"
+            Button:
+                size_hint_x: 0.2
+                text: 'home'
+                on_release: app.root.current='start_screen'
+            AnchorLayout:
+                anchor: ('center', 'center')
+                LabelWhiteBorder:
+                    font_size: 20
+                    multiline: True
+                    size_hint: None, None
+                    size: self.texture_size
+                    text: "Label:\n    text: 'Just some text here, bottom left aligned'\n    text_size: self.size\n    halign: 'left'\n    valign: 'bottom'"
+        LabelBlueBorder:
+            size_hint_y: 0.2
+            text: 'Just some text here; centers by default'
+        LabelRedBorder:
+            size_hint_y: 0.2
+            text: 'Just some text here, bottom left aligned (see separate video for adjusting FONT size to fit Label'
+            text_size: self.size
+            halign: 'left'
+            valign: 'bottom'
+
+<Screen3@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 20,20
+        spacing: 50
+        GridLayout:
+            cols: 2
+            spacing: 20
+            padding: 20,20
+            Label:
+                font_size: 20
+                color: 1,0,0,1
+                text: "Set text_size smaller than texture_size to only show part of text"
+            Button:
+                size_hint_x: 0.2
+                text: 'home'
+                on_release: app.root.current='start_screen'
+            AnchorLayout:
+                anchor: ('center', 'center')
+                LabelWhiteBorder:
+                    font_size: 20
+                    multiline: True
+                    size_hint: None, None
+                    size: self.texture_size
+                    text: "Label:\n    text: 'Just some text here but long text this time'\n    font_size: 30\n    text_size: cm(10), cm(0.5)"
+        LabelBlueBorder:
+            size_hint_y: 0.4
+            font_size: 30
+            text: 'Just some text here but long text this time'
+        LabelRedBorder:
+            size_hint_y: 0.4
+            text: 'Just some text here but long text this time'
+            font_size: 30
+            text_size: cm(10), cm(0.5)
+
+<MainScreen@Screen>:
+    BoxLayout:
+        orientation: 'vertical'
+        padding: 10,10
+        spacing: 10
+        Label:
+            text: 'size = size of label; set to match size of text (=texture); label size:' + str(self.size) + str(self.text_size) + str(self.texture_size)
+            #un-constrain size_hint
+            size_hint: None, None
+            #set label size to be the size of the texture
+            size: self.texture_size
+            canvas.after:
+                Color:
+                    rgba: (1,0,0,1)
+                Line:
+                    width: 2
+                    rectangle: self.x, self.y, self.width, self.height
+
+        LabelRedBorder:
+            text: 'text_size = size of text BOX; label size: ' + str(self.size) + str(self.text_size) + str(self.texture_size)
+            text_size: self.size
+            #text box is now the size of the label
+            #text font won't adjust -> see separate video
+            #now we can align
+            halign: 'right'
+            valign: 'center'
+        Label:
+            text: 'texture = size of text'
+        FunkyLabel:
+            text: 'Long text to show text box can be set smaller than texture'
+            text_size: cm(5), cm(1)
+
+ScreenManager:
+    StartScreen:
+        name: 'start_screen'
+    Screen1:
+        name:'screen1'
+    Screen2:
+        name:'screen2'
+    Screen3:
+        name:'screen3'

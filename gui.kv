@@ -1,0 +1,377 @@
+#: kivy 2.1.0
+
+#1. bespoke theme
+#2. labels: font and bg colour and rounding corners
+#3. button: font and gb color on press and release and rounding colours (bespoke images)
+#4. creating framed backgrounds & centering buttons via nested layouts
+
+
+#changing font color on press and release
+#https://stackoverflow.com/questions/54525273/kivy-change-the-color-of-a-button-after-being-pressed
+
+
+<MyButtonFormatted@Button>:
+# Button background colour
+# ========================
+# background_color, in the format (r, g, b, a).
+# default background_color: 1,1,1,1
+# This acts as a multiplier to the texture colour.
+# The default texture is grey, so just setting the
+# background color will give a darker result.
+# To set a plain color, set the background_normal to ''.
+# if both background_normal and background_down are = ''
+# then the normal and down colours are the same
+# so it looks like the background_color multiplier
+# is applied to both the normal and down colours,
+# by default grey and blue-ish
+
+    background_normal: '' # is string to an image, by default ‘atlas://data/images/defaulttheme/button
+#    background_down: '' # is string to an image, by default ‘atlas://data/images/defaulttheme/button_pressed’
+    background_color: app.grey_violet
+    color: app.background_dark if self.state == 'normal' else app.white_almond
+    text: 'NORMAL: bg: grey violet, text: background dark' if self.state == 'normal' else 'DOWN: bg: grey violet applied to default blue-ish, text: white almond'
+
+<MyButton>
+    size_hint: None, None
+    size: [100,100]
+
+
+<Label_background_dark@Label>:
+    text: 'background_dark'
+    canvas.before:
+        Color:
+            rgba: app.background_dark
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+<Label_blue_oxford@Label>:
+    text: 'blue oxford'
+    canvas.before:
+        Color:
+            rgba: app.blue_oxford
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [5]
+
+<Label_blue_navy@Label>:
+    text: 'blue navy'
+    canvas.before:
+        Color:
+            rgba: app.blue_navy
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [10]
+
+<Label_grey_violet@Label>:
+    text: 'grey violet'
+    canvas.before:
+        Color:
+            rgba: app.grey_violet
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [15]
+
+<Label_white_almond@Label>:
+    text: 'white almond (blue navy font)'
+    canvas.before:
+        Color:
+            rgba: app.white_almond
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+    color: app.blue_navy
+
+<MyButton@Button>:
+    #To set a plain color, set the background_normal to ''
+    background_normal: ''
+    #Background colour when un-clicked (i.e. normal)
+    background_color: app.blue_navy
+    canvas.before:
+        #Background colour when pressed
+        Color:
+            rgba: app.grey_violet
+        Rectangle:
+            pos: self.pos
+            size: self.size
+        # to round teh corners of a button you need
+        # to load rounded images into background_normal
+        # and background_pressed
+#    font_color_normal: app.blue_oxford
+#    font_color_down: (1,0,0,1) #app.white_almond
+
+<MainScreen@Screen>:
+    #unconstrain or define the size_hint of the AnchorLayout's child
+    #size_hint: None, None
+    #TODO Why is grey (screen) in the top right
+    #TODO why does anchorlayout follow screen size hints
+    size_hint_x: 0.90
+    size_hint_y: 0.50
+    #size: app.root.size
+    #pos: app.root.pos
+    canvas.before:
+        Color:
+            #screen has grey background
+            rgba: 0.5,0.5,0.5,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    #default size of widget is 100*100
+    # now grey takes up the whole screen
+    # that's the canvas of the AnchorLayout child
+    # and only if the size of the boxlayout is not set
+    # because then the boxlayout remains at 100*100
+    #pos: self.parent.pos
+    #size: self.parent.size
+    # To center things in my main screen
+    # I need to create an AnchorLayout and
+    # set its anchors to center
+    # so the anchor is defined before the item that
+    # will be centered
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        canvas.before:
+            Color:
+                #anchor has white background
+                rgba: 1,1,1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            # Position BoxLayout in Parent
+            # https://stackoverflow.com/questions/35572211/how-to-center-buttons-in-kivy
+            #size: self.parent.size
+            # unconstrain the AnchorLayout's child size_hint
+            #size_hint: None, None
+            # or specify the size_hint but don't leave at default
+            size_hint_x: 0.9
+            size_hint_y: 0.95
+            size: self.parent.size
+            pos: self.parent.pos
+            orientation: 'vertical'
+            canvas.before:
+                Color:
+                    rgba: app.background_dark
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            Label_background_dark
+            Label_blue_oxford:
+            Label_blue_navy:
+            Label_grey_violet
+            Label_white_almond
+            Button:
+                text: 'Click to check normal and down'
+
+
+<MainScreenFinal@Screen>:
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        canvas.before:
+            Color:
+                #Anchor has white background
+                rgba: 1,1,1,1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        BoxLayout:
+            # Position BoxLayout in Parent
+            # https://stackoverflow.com/questions/35572211/how-to-center-buttons-in-kivy
+            #size: self.parent.size
+            # unconstrain or set the AnchorLayout's child size_hint
+            #size_hint: None, None
+            # or specify the size_hint but don't leave at default
+            size_hint: 0.95, 0.95
+            size: self.parent.size
+            pos: self.parent.pos
+            orientation: 'vertical'
+            canvas.before:
+                # BoxLayout has a grey background
+                Color:
+                    rgba: 0.5,0.5,0.5,1
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            # To see the BoxLayout's background, Buttons should
+            # not take up the entire space
+            # size_hints and size don't work
+            # 1. use gridlayouts with padding or sub-AnchorLayouts
+            GridLayout:
+                # GridLayout takes up entire BoxLayout space
+                # padding between GridLayout and GridLayout children
+                # as the GridLayout has no background colour
+                # the BoxLayout background colour will come through
+                padding: 20,20
+                spacing: 10
+                cols:1
+                Label_background_dark
+                Label_blue_oxford:
+                Label_blue_navy:
+                Label_grey_violet
+                Label_white_almond
+            GridLayout:
+                size_hint_y: 0.3
+                cols: 1
+                padding: 70, 10
+                spacing: 10
+                MyButtonFormatted:
+                Button:
+                    text:' default button'
+
+<WhiteScreen@Screen>:
+    # unconstrain the size_hint of the item to be centered,
+    # the child in the AnchorLayout
+    size_hint: None,None
+    size: self.size
+    pos: root.pos
+    # Screen is white
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    # size_hint: 0.95, 0.95
+    # with the size_hint unconstrained, it centers a 100*100 screen
+    # set size to overwrite 100*100 default widget size
+    #size: self.parent.size
+#    Label:
+#        canvas.before:
+#            Color:
+#                rgba: (1,1,1,1)
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+#        color: 1,0,0,1
+#        text: 'Label in White Screen'
+        # with size_hint at default, Label takes up whole screen
+        # default = 1,1
+        # !!!! unconstraining the size_hint of the label messes everything up:
+        # the white screen reverts to 100*100, times 95% at left bottom corner
+        # size_hint: None, None
+        # that's because the size of the label isn't defined yet in terms of its parent
+        # this is fixed by:
+        # size: self.parent.size
+#        size: self.parent.size
+        # setting the position to the parent's position breaks it
+        # white screen then sits in the top right corner
+        # pos: self.parent.pos
+        # What if I now want the label to be smaller than the screen?
+        # Setting the label size hint breaks it again
+        # default size is [100,100]
+        # so with size_hint to None, None, a 100*100 label sits in
+        # the bottom left corner, not centered, so the anchor doesn't work
+        # on Label. That's because the child in the AnchorLayout is TestScreen
+        # so unconstrain the size_hint of the WhiteScreen
+
+<WhiteScreenCenterButton@Screen>:
+    # unconstrain or set the size_hint of the item to be centered,
+    # the child in the AnchorLayout
+    # size_hint: 0.95, 0.95
+    # with the size_hint unconstrained, it centers a 100*100 screen
+    # set size to overwrite 100*100 default widget size
+    size: self.parent.size
+    # Screen is white
+    canvas.before:
+        Color:
+            rgba: (1,1,1,1)
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    Label:
+        # Label is Green
+        canvas.before:
+            Color:
+                rgba: (0,1,0,1)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        color: 1,0,0,1
+        text: 'Label in White Screen'
+        # with size_hint at default, Label takes up whole screen
+        # default = 1,1
+        # !!!! unconstraining the size_hint of the label messes everything up:
+        # the white screen reverts to 100*100, times 95% at left bottom corner
+        # size_hint: None, None
+        # that's because the size of the label isn't defined yet
+        # this is fixed by:
+        # size: self.parent.size
+        # or
+        size: self.size
+        # setting the position to the parent's position breaks it
+        # white screen then sits in the top right corner
+        # pos: self.parent.pos
+        # pos: root.pos
+        # setting it to the label's own position works (makes no difference)
+        pos: self.pos
+        # What if I now want the label to be smaller than the screen?
+        # Setting the label size hint breaks it again
+        # size_hint: 0.8, 0.8
+        # I can use padding
+        padding: 20,20
+
+
+<TestScreen2@Screen>:
+    # unconstrain the size_hint of the item to be centered,
+    # the child in the AnchorLayout
+    size_hint: None, None
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+        TestScreen2_1:
+
+<TestScreen2_1@Screen>:
+    # unconstrain the size_hint of the item to be centered,
+    # the child in the AnchorLayout
+    size_hint: None, None
+    # Stick the buttons in a layout
+    BoxLayout:
+        orientation: 'vertical'
+        Button:
+            text: 'Button1'
+        Button:
+            text: 'Button2'
+        Button:
+            text: 'Button3'
+
+# This works, because we have a widget MyButton in an AnchorLayout
+# Screens don't center in an AnchorLayout (are not widgets?)
+#AnchorLayout:
+#    anchor_x: 'center'
+#    anchor_y: 'center'
+#    # AnchorLayout is blue
+#    canvas.before:
+#        Color:
+#            rgba: (0,0,1,1)
+#        Rectangle:
+#            pos: self.pos
+#            size: self.size
+#    MyButton:
+#        text: 'Click Me'
+
+
+# further failed tests
+#====================
+#    MainScreenFinal:
+    #   screen doesn't center in a layout
+#    WhiteScreen
+#    WhiteScreenCenterButton:
+#    TestScreen2:
+    # create another layout to limit the screen into
+    # no, you cannot capture a screen in a layout
+#    GridLayout:
+#        cols: 1
+#        # unconstrain the size_hint of the item to be centered,
+#        # the child in the AnchorLayout
+#        ScreenManager:
+#            WhiteScreen
+
+# Instead of and AnchorLayout as root, use a screen or screenmanager
+MainScreenFinal:

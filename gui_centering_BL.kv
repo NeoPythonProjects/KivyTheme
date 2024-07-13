@@ -1,0 +1,22 @@
+#: kivy 2.1.0
+
+BoxLayout:
+    orientation: 'horizontal'
+    padding: 200, 100
+    spacing: 10
+    Label:
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        text: 'Label 1'
+    Label:
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 1, 1
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        text: 'Label 2'

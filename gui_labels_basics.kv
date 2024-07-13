@@ -1,0 +1,38 @@
+#: kivy 2.1.0
+
+GridLayout:
+    cols: 1
+    padding: 100,200
+    Label:
+        text: 'Some text in my Label'
+    # Font size
+        font_size: 50
+    # Font Colour
+        #RGBA Red Green Blue Alpha
+        # 0 - 1
+        # 0 - 255
+        # x/255
+        color: 71/255, 73/255, 115/255, 1
+
+    # Background Colour
+#        canvas.before:
+#            Color:
+#                rgba: 0.5, 0.5, 0.5, 1
+#            Rectangle:
+#                pos: self.pos
+#                size: self.size
+    # Border
+#        canvas.after:
+#            Color:
+#                rgba: 0, 0, 1, 1
+#            Line:
+#                width: 2
+#                rectangle: self.x, self.y, self.width, self.height
+    # Rounding Corners
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [100]

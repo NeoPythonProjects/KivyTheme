@@ -1,0 +1,18 @@
+#: kivy 2.1.0
+
+# https://kivy.org/doc/stable/api-kivy.uix.label.html
+
+GridLayout:
+    cols: 1
+    padding: 100,200
+    Label:
+        markup: True
+        text: 'Some [b]text[/b] in my [color=#42f5f5]Label[/color]'
+        font_size: 30
+        canvas.before:
+            Color:
+                rgba: 0.5, 0.5, 0.5, 1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [50]

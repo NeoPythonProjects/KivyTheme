@@ -1,0 +1,125 @@
+#: kivy 2.1.0
+<GL_white_border@GridLayout>:
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+
+<AL_center@AnchorLayout>:
+    anchor: 'center', 'center'
+
+<Label_note@Label>:
+    canvas.before:
+        Color:
+            rgba: 0,0,1,1
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+    padding: 5,5
+    size_hint: None, None
+    size: self.texture_size
+
+<Label_data@Label>:
+    canvas.before:
+        Color:
+            rgba: 0,1,1,1
+        Line:
+            width: 1
+            rectangle: self.x, self.y, self.width, self.height
+    padding: 5,5
+    size_hint: None, None
+    size: self.texture_size
+
+<Label_main@Label>:
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5,1
+        RoundedRectangle:
+            size: self.size
+            pos: self.pos
+            radius: [20]
+
+<MyScreen@Screen>:
+    GridLayout:
+        rows: 3
+        padding: 15,15
+        spacing: 15
+        # row 1: label size, font size
+        GL_white_border:
+            size_hint_y: 0.2
+            cols: 2
+            # col 1: label size
+            BoxLayout:
+                orientation: 'vertical'
+                AL_center:
+                    Label_note:
+                        text: 'size'
+                AL_center:
+                    Label_data:
+                        id: lbl_size
+                        text: str(root.ids.lbl_main.size)
+            # col 2: font size
+            BoxLayout:
+                orientation: 'vertical'
+                AL_center:
+                    Label_note:
+                        text: 'font size'
+                AL_center:
+                    Label_data:
+                        id: lbl_font_size
+                        text: str(root.ids.lbl_main.font_size)
+
+
+        # row 2: label itself
+        # ===================
+        Label_main:
+            id: lbl_main
+            text: 'Some text in my main label'
+            # 1. change font_size
+            font_size: 50
+            # 2. set text_size to fit label
+            text_size: self.size
+            # 3. then align
+            halign: 'right'
+            valign: 'center'
+            # 4. set label size to fit text
+#            size_hint: None, None
+#            size: self.texture_size
+            # 5. change text size to show part of texture
+#            text_size: cm(10), cm(2)
+#            text_size: cm(5), cm(0.75)
+
+
+
+
+
+
+        # row 3: text size, texture size
+        GL_white_border:
+            size_hint_y: 0.2
+            cols: 2
+            # col 1: text size
+            BoxLayout:
+                orientation: 'vertical'
+                AL_center:
+                    Label_note:
+                        text: 'text size'
+                AL_center:
+                    Label_data:
+                        id: lbl_text_size
+                        text: str(root.ids.lbl_main.text_size)
+            # col 2: texture size
+            BoxLayout:
+                orientation: 'vertical'
+                AL_center:
+                    Label_note:
+                        text: 'texture size'
+                AL_center:
+                    Label_data:
+                        id: lbl_texture_size
+                        text: str(root.ids.lbl_main.texture_size)
+
+
+MyScreen

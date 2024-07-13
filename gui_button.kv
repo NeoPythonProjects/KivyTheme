@@ -1,0 +1,17 @@
+#: kivy 2.1.0
+
+GridLayout:
+    cols: 1
+    padding: 300,200
+    Button:
+        text: '' if self.state == 'normal' else 'Some text for my Button'
+        font_size: 10
+        # font colour
+        # color: (22/255, 27/255, 51/255, 1) if self.state == 'normal' else (1,0,0,1)
+        # background - colour filter
+        background_color: (1,0,0,1) if self.state == 'normal' else (0,1,0,1)
+        # background - clear colours
+#        background_normal: ''
+#        background_down: ''
+        # background - your own button
+        background_normal: 'Original.png'

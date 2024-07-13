@@ -1,0 +1,75 @@
+#: kivy 2.1.0
+<MyBoxLayout@BoxLayout>:
+    orientation: 'vertical'
+    canvas.before:
+        Color:
+            rgba: 1,1,1,1
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+            radius: [20]
+
+    padding: 30, 30
+    spacing: 10
+    Label:
+        text: 'label 1'
+        canvas.before:
+            Color:
+                rgba: 22/255, 27/255, 51/255,1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [20]
+    Label:
+        text: 'label 2'
+        canvas.before:
+            Color:
+                rgba: 71/255, 73/255, 115/255,1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [20]
+    Label:
+        text: 'label 3'
+        canvas.before:
+            Color:
+                rgba: 166/255, 156/255, 172/255,1
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+                radius: [20]
+
+<AL@AnchorLayout>:
+    canvas.before:
+        Color:
+            rgba: 0.5, 0.5, 0.5 ,1
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    anchor: 'center', 'center'
+    padding: 50, 50
+    MyBoxLayout
+
+AL
+
+
+
+
+
+
+
+
+
+#<MyAL@AnchorLayout>:
+#    canvas.before:
+#        Color:
+#            rgba: 0.5,0.5,0.5,1
+#        Rectangle:
+#            pos: self.pos
+#            size: self.size
+#    anchor: 'center', 'center'
+#    padding: 20, 20
+#    MyBoxLayout
+
+#MyAL
